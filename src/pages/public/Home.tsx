@@ -1,7 +1,7 @@
 import { useState } from "react"; // Importa o hook useState para gerenciar o estado do componente
-import Sidebar from "../components/Sidebar"; // Importa o componente Sidebar para a barra lateral de busca e filtro
-import SeboCard from "../components/SeboCard"; // Importa o componente SeboCard para exibir as informações de cada sebo na lista
-import type { Store } from "../types/store"; // Importa o tipo Store para tipar o estado dos sebos e as props do componente SeboCard
+import Sidebar from "../../components/layout/Sidebar"; // Importa o componente Sidebar para a barra lateral de busca e filtro
+import SeboCard from "../../components/ui/SeboCard"; // Importa o componente SeboCard para exibir as informações de cada sebo na lista
+import type { Store } from "../../types/store"; // Importa o tipo Store para tipar o estado dos sebos e as props do componente SeboCard
 
 export default function Home() {
 

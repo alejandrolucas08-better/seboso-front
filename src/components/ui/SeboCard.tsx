@@ -1,4 +1,4 @@
-import type { Store } from "../types/store" // Importa o tipo Store para tipar as props do componente
+import type { Store } from "../../types/store" // Importa o tipo Store para tipar as props do componente
 
 // Componente para exibir as informações de um sebo
 type Props = {
