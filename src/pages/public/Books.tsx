@@ -1,43 +1,41 @@
-import { useState } from "react";
-import BookCard from "../../components/ui/BookCard";
-import type { Book } from "../../types/book";
+import { useState, useEffect} from "react"; // Importa os hooks useState e useEffect do React para gerenciar o estado dos livros e realizar a busca na API quando o componente for montado
+import BookCard from "../../components/ui/BookCard"; // Importa o componente BookCard para exibir as informações de cada livro na lista
+import type { Book } from "../../types/book"; // Importa o tipo Book para tipar o estado dos livros e as props do componente BookCard
+import { getBooks } from "../../services/api"; // Importa a função getBooks para buscar os livros na API
 
 export default function Books() {
 
-  const [books] = useState<Book[]>([
-    {
-      id: "1",
-      title: "Dom Casmurro",
-      author: "Machado de Assis",
-      launched_at: "19/02/1992",
-      description: "Dom Casmurro é um romance escrito por Machado de Assis, publicado em 1899. A obra é narrada por Bento Santiago, conhecido como Dom Casmurro, que conta a história de sua vida e seu relacionamento com Capitu, sua esposa. O livro é famoso por sua ambiguidade e pela dúvida que deixa sobre a fidelidade de Capitu, tornando-se um dos maiores clássicos da literatura brasileira.",
-      cover_type: "Brochura",
-      edition: "1ª Edição",
-      language: "Português",
-      genre: "Romance",
-      isbn_10_code: "8535903623",
-      isbn_13_code: "9788535903622",
-      pages: 256,
-      publisher: "Companhia das Letras",
-      dimentions: "14 x 21 cm",
-    },
-    {
-      id: "2",
-      title: "1984",
-      author: "George Orwell",
-      launched_at: "09/09/1948",
-      description: "1984 é um romance distópico escrito por George Orwell, publicado em 1948. A obra retrata um futuro opressivo onde o governo controla todos os aspectos da vida social e individual.",
-      cover_type: "Brochura",
-      edition: "1ª Edição",
-      language: "English",
-      genre: "Distópico",
-      isbn_10_code: "0451524934",
-      isbn_13_code: "9780451524935",
-      pages: 328,
-      publisher: "Penguin Books",
-      dimentions: "13 x 20 cm",
-    },
-  ]);
+  const [books, setBooks] = useState<Book[]>([]); // Estado para armazenar a lista de livros
+  const [loading, setLoading] = useState(true); // Estado para controlar o loading
+  const [error, setError] = useState(""); // Estado para armazenar mensagens de erro
+
+  useEffect(() => {
+
+    async function fetchBooks() {
+      setLoading(true);
+      setError("");
+
+      try {
+        const booksData = await getBooks();
+        console.log("Livros carregados:", booksData);
+        setBooks(booksData);
+      } catch (err) {
+        setError("Erro ao buscar livros.");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchBooks();
+  }, []);
+
+  if (loading) {
+    return <div className="text-center">Carregando...</div>;
+  }
+
+  if (error) {
+    return <div className="text-center text-red-500">{error}</div>;
+  }
 
   return (
     <>
@@ -45,11 +43,17 @@ export default function Books() {
         Catálogo Geral
       </h1>
 
-      <div className="flex flex-col gap-3">
-        {books.map((book) => (
+      <div className="
+        grid
+        grid-cols-1
+        md:grid-cols-2
+        xl:grid-cols-3
+        gap-4
+      ">
+        {books.map((books) => (
           <BookCard
-            key={book.id}
-            book={book}
+            key={books.id}
+            book={books}
           />
         ))}
       </div>

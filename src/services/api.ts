@@ -1,4 +1,5 @@
 import type { Store } from "../types/store";
+import type { Book } from "../types/book";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -68,9 +69,17 @@ export function getStores(
   page = 1,
   perPage = 10
 ) {
-
   return api<Store[]>(
     `/stores?page=${page}&per_page=${perPage}`
   );
 
+}
+
+export function getBooks(
+  page = 1,
+  perPage = 10
+) {
+  return api<Book[]>(
+    `/books?page=${page}&per_page=${perPage}`
+  );
 }
