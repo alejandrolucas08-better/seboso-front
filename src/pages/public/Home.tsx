@@ -38,7 +38,7 @@ export default function Home() {
 
   // Error
   if (error) {
-    return <p>{error}</p>;
+    return <div className="text-center text-red-500">{error}</div>;
   }
 
   return (

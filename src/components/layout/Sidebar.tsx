@@ -1,8 +1,12 @@
-export default function Sidebar() {
+type Props = {
+  pageTitle: string;
+};
+
+export default function Sidebar({ pageTitle }: Props) {
   return (
     <aside className="w-72 p-5 bg-white border-r border-[#E5E5E5] min-h-screen">
 
-      <h2 className="font-semibold mb-4">Buscar Sebo</h2>
+      <h2 className="font-semibold mb-4">Buscar {pageTitle}</h2>
 
       <input
         type="text"

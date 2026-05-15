@@ -3,9 +3,10 @@ import Sidebar from "./Sidebar";
 
 type LayoutProps = {
   children: React.ReactNode;
+  pageTitle: string;
 };
 
-export default function Layout({ children }: LayoutProps) {
+export default function Layout({ children, pageTitle }: LayoutProps) {
   return (
     <div className="min-h-screen bg-[#F5F5F5]">
 
@@ -13,7 +14,7 @@ export default function Layout({ children }: LayoutProps) {
       
       <div className="flex">
 
-        <Sidebar />
+        <Sidebar pageTitle={pageTitle} />
 
         <main className="flex-1 p-6">
           {children}

@@ -29,8 +29,8 @@ export default function AppRoutes() {
   return (
     <Routes>
       {/* Public Routes */}
-      <Route path="/" element={<Layout><Home /></Layout>} />
-      <Route path="/books" element={<Layout><Books /></Layout>} />
+      <Route path="/" element={<Layout pageTitle="Sebo"><Home /></Layout>} />
+      <Route path="/books" element={<Layout pageTitle="Livros"><Books /></Layout>} />
       <Route path="/about" element={<><Header/><About /></>} />
 
       {/* Auth Routes */}
