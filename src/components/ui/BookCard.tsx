@@ -1,4 +1,4 @@
-import type { Book } from "../../types/book";
+import type { Book } from "../../types/book"; // Importa o tipo Book para tipar as props do componente BookCard, garantindo que as informações do livro sejam do tipo correto
 
 type Props = {
   book: Book;

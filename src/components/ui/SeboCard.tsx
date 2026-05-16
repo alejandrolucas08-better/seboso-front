@@ -1,4 +1,4 @@
-import type { Store } from "../../types/store";
+import type { Store } from "../../types/store"; // Importa o tipo Store para tipar as props do componente SeboCard, garantindo que as informações do sebo sejam do tipo correto
 
 // Componente para exibir as informações de um sebo
 type Props = {

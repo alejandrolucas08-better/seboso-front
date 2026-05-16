@@ -1,11 +1,54 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
+import { useState } from "react"; 
+import { Link, useNavigate } from "react-router-dom"; 
+import {signupUser} from "../../services/auth.service";
+import { ArrowLeft } from "lucide-react"; 
 
 export default function Signup() {
 
-  // Estado do checkbox
+  const navigate = useNavigate();
+
   const [createStore, setCreateStore] = useState(false);
+
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    login: "",
+    password: "",
+    cell_number: "",
+     is_activated: 1,
+  });
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>){
+    event.preventDefault();
+    setError("");
+    setLoading(true);
+
+    try {
+      console.log(JSON.stringify(formData, null, 2));
+      await signupUser(formData);
+      navigate("/login");
+
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Erro ao criar conta"
+      );
+
+    } finally {
+      setLoading(false);
+
+    }
+  }
+
+  function handleChange(
+    event: React.ChangeEvent<HTMLInputElement>
+  ) {
+    setFormData({...formData, [event.target.name]: event.target.value});
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#F5F5F5]">
@@ -41,7 +84,7 @@ export default function Signup() {
         </div>
 
         {/* Form */}
-        <form className="flex flex-col gap-4">
+        <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
 
           {/* Nome */}
           <div className="flex flex-col gap-1">
@@ -52,6 +95,8 @@ export default function Signup() {
 
             <input
               type="text"
+              name="name"
+              required
               placeholder="Digite seu nome"
               className="
                 border border-gray-300
@@ -59,8 +104,9 @@ export default function Signup() {
                 px-3 py-2
                 focus:outline-none
                 focus:ring-2
-                focus:ring-[#C37351]
-              "
+                focus:ring-[#C37351]"
+              value={formData.name}
+              onChange={handleChange}
             />
 
           </div>
@@ -74,6 +120,8 @@ export default function Signup() {
 
             <input
               type="email"
+              name="email"
+              required
               placeholder="Digite seu email"
               className="
                 border border-gray-300
@@ -81,8 +129,34 @@ export default function Signup() {
                 px-3 py-2
                 focus:outline-none
                 focus:ring-2
-                focus:ring-[#C37351]
-              "
+                focus:ring-[#C37351]"
+              value={formData.email}
+              onChange={handleChange}
+            />
+
+          </div>
+
+          {/* Login */}
+          <div className="flex flex-col gap-1">
+
+            <label className="text-sm font-medium text-gray-700">
+              Login
+            </label>
+
+            <input
+              type="text"
+              name="login"
+              required
+              placeholder="Digite seu login"
+              className="
+                border border-gray-300
+                rounded-lg
+                px-3 py-2
+                focus:outline-none
+                focus:ring-2
+                focus:ring-[#C37351]"
+              value={formData.login}
+              onChange={handleChange}
             />
 
           </div>
@@ -96,6 +170,8 @@ export default function Signup() {
 
             <input
               type="password"
+              name="password"
+              required
               placeholder="Digite sua senha"
               className="
                 border border-gray-300
@@ -103,8 +179,34 @@ export default function Signup() {
                 px-3 py-2
                 focus:outline-none
                 focus:ring-2
-                focus:ring-[#C37351]
-              "
+                focus:ring-[#C37351]"
+              value={formData.password}
+              onChange={handleChange}
+            />
+
+          </div>
+
+          {/* Número de Celular */}
+          <div className="flex flex-col gap-1">
+
+            <label className="text-sm font-medium text-gray-700">
+              Número de Celular
+            </label>
+
+            <input
+              type="tel"
+              name="cell_number"
+              required
+              placeholder="Digite seu número de celular"
+              className="
+                border border-gray-300
+                rounded-lg
+                px-3 py-2
+                focus:outline-none
+                focus:ring-2
+                focus:ring-[#C37351]"
+              value={formData.cell_number}
+              onChange={handleChange}
             />
 
           </div>
@@ -114,6 +216,7 @@ export default function Signup() {
 
             <input
               type="checkbox"
+
               checked={createStore}
               onChange={() => setCreateStore(!createStore)}
             />
@@ -177,6 +280,12 @@ export default function Signup() {
 
           )}
 
+          {error && (
+            <p className="text-red-500 text-sm">
+              {error}
+            </p>
+          )}
+
           {/* Botão */}
           <button
             type="submit"
@@ -188,10 +297,12 @@ export default function Signup() {
               rounded-lg
               transition-colors
               cursor-pointer
-              font-medium
-            "
+              font-medium"
+            disabled={loading}
           >
-            Criar conta
+            {loading
+              ? "Criando..."
+              : "Criar conta"}
           </button>
 
         </form>

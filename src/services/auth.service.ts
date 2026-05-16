@@ -1,26 +1,34 @@
-import type { User } from "../types/user";
-import { api } from "./api";
+import { api } from "./api"; // Importa a função api para fazer as requisições HTTP para a API de autenticação, permitindo realizar login e cadastro de usuários
+import type { LoginData, SignupData } from "../types/auth"; // Importa os tipos LoginData e SignupData para tipar as funções de login e cadastro, garantindo que os dados enviados para a API estejam no formato correto
 
-export type LoginCredentials = {
-  login: string;
-  password: string;
+type LoginResponse = {
+  token: string;
 };
 
-export type SignupInput = Pick<
-  User,
-  "name" | "login" | "email" | "password" | "cell_number"
->;
+export async function loginUser(
+  data: LoginData
+) {
 
-export function login(credentials: LoginCredentials) {
-  return api<User>("/auth/login", {
-    method: "POST",
-    body: credentials,
-  });
+  return api<LoginResponse>(
+    "/users/login",
+    {
+      method: "POST",
+      body: data,
+    }
+  );
+
 }
 
-export function signup(payload: SignupInput) {
-  return api<User>("/auth/signup", {
-    method: "POST",
-    body: payload,
-  });
+export async function signupUser(
+  data: SignupData
+) {
+
+  return api(
+    "/users",
+    {
+      method: "POST",
+      body: data,
+    }
+  );
+
 }

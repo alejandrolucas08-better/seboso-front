@@ -1,55 +1,84 @@
-import {
-  createContext,
-  useState,
-  type ReactNode,
-} from "react";
+import { createContext, useEffect, useState } from "react"; // Importa as funções createContext, useEffect e useState do React para criar o contexto de autenticação e gerenciar o estado do usuário e dos efeitos colaterais relacionados à autenticação
 
-export type User = {
-  id: string;
-  email: string;
-  name: string;
-  role: "client" | "employee" | "seboOwner" | "admin";
+type User = {
+  token: string;
 };
 
-export type AuthContextType = {
+type AuthContextType = {
   user: User | null;
   isAuthenticated: boolean;
-  login: (user: User) => void;
+  login: (token: string) => void;
   logout: () => void;
 };
 
-export const AuthContext = createContext<AuthContextType | undefined>(
-  undefined
-);
-
 type AuthProviderProps = {
-  children: ReactNode;
+  children: React.ReactNode;
 };
+
+export const AuthContext =
+  createContext<AuthContextType | undefined>(
+    undefined
+  );
 
 export function AuthProvider({
   children,
 }: AuthProviderProps) {
 
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] =
+    useState<User | null>(null);
 
-  function login(userData: User) {
-    setUser(userData);
+  // Carrega token salvo
+  useEffect(() => {
+
+    const token =
+      localStorage.getItem("token");
+
+    if (token) {
+
+      setUser({
+        token,
+      });
+
+    }
+
+  }, []);
+
+  function login(token: string) {
+
+    localStorage.setItem(
+      "token",
+      token
+    );
+
+    setUser({
+      token,
+    });
+
   }
 
   function logout() {
+
+    localStorage.removeItem("token");
+
     setUser(null);
+
   }
 
   return (
     <AuthContext.Provider
       value={{
         user,
+
         isAuthenticated: !!user,
+
         login,
+
         logout,
       }}
     >
+
       {children}
+
     </AuthContext.Provider>
   );
 }
