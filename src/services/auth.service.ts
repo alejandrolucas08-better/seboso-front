@@ -2,7 +2,9 @@ import { api } from "./api"; // Importa a função api para fazer as requisiçõ
 import type { LoginData, SignupData } from "../types/auth"; // Importa os tipos LoginData e SignupData para tipar as funções de login e cadastro, garantindo que os dados enviados para a API estejam no formato correto
 
 type LoginResponse = {
-  token: string;
+  success: boolean;
+  message?: string;
+  token?: string;
 };
 
 export async function loginUser(

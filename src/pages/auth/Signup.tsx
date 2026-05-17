@@ -27,7 +27,6 @@ export default function Signup() {
     setLoading(true);
 
     try {
-      console.log(JSON.stringify(formData, null, 2));
       await signupUser(formData);
       navigate("/login");
 
