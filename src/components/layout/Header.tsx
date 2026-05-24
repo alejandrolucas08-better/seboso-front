@@ -9,11 +9,7 @@ const navItems = [
   { name: 'About', path: '/about' },
 ];
 
-interface HeaderProps {
-  location: string;
-}
 
-export default function Header({ location }: HeaderProps)
 // Header principal (junta tudo)
 export default function Header({location}: {location: string;}) {
   return (
