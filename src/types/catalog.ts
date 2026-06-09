@@ -3,5 +3,5 @@ export interface CatalogItem {
   book_id: number;
   price: number;
   quantity: number;
-  description: string; // Mapeado a partir do "description" da tabela catalog
+  description: string; 
 }

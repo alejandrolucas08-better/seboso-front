@@ -26,7 +26,7 @@ export default function SidebarStoreItemGroup({ storeRelation }: SidebarStoreIte
 
   return (
     <NavLink
-      to={`/dashboard/stores/${storeRelation.store_id}`}
+      to={`/dashboard/stores/${storeRelation.store_id}/catalog`}
       className={({ isActive }) =>
         `
           flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors

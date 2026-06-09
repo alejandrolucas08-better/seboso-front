@@ -22,7 +22,7 @@ export function getBookById(bookId: number) {
 
 // POST /books/ - Cria um novo livro
 export function createBook(bookData: CreateBookInput) {
-  return api<void>("/books/", {
+  return api<void>("/books", {
     method: "POST",
     body: bookData,
   });

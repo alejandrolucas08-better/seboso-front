@@ -16,3 +16,19 @@ export interface Book {
   created_at: string;
   updated_at: string;
 }
+
+export type CreateBookInput = {
+  title: string;
+  author: string;
+  description?: string;
+  published_at?: string;
+  cover_type?: string;
+  edition?: string;
+  language?: string;
+  genre?: string;
+  isbn_10_code?: string;
+  isbn_13_code?: string;
+  publisher?: string;
+  pages?: number | null;
+  dimensions?: string | null;
+};
