@@ -3,10 +3,12 @@ import type { Book } from "../../types/book";
 import { Pencil, Trash2 } from "lucide-react";
 
 interface BooksTableProps {
-  books: Book[];
+    books: Book[];
+    onDelete: (bookId: number) => void;
+    
 }
 
-export default function BooksTable({books}: BooksTableProps) {
+export default function BooksTable({books, onDelete}: BooksTableProps) {
     if (books.length === 0) {
         return (
             <p className="p-4 text-gray-500">
@@ -57,7 +59,7 @@ export default function BooksTable({books}: BooksTableProps) {
             </Link>
 
             <button
-                onClick={() => handleDelete(book.id)}
+                onClick={() => onDelete(book.id)}
                 className="
                 flex items-center justify-center
                 w-9 h-9
