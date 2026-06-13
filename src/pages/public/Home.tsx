@@ -7,7 +7,7 @@ import { Store as StoreIcon, AlertCircle, RefreshCw } from "lucide-react";
 export default function Home() {
   const [stores, setStores] = useState<Store[]>([]);
   
-  // 1. 🟢 Inicializa o loading como true para evitar chamadas síncronas de setState no useEffect
+  // Estados para gerenciar o carregamento e possíveis erros na busca dos dados
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -54,7 +54,7 @@ export default function Home() {
     };
   }, []);
 
-  // 2. 🟢 Skeleton Loading fluido simulando a estrutura dos cartões de sebo
+  // Skeleton de carregamento para a página inicial, mantendo a estrutura visual enquanto os dados são buscados
   if (loading) {
     return (
       <div className="w-full space-y-6 animate-pulse">
@@ -68,7 +68,7 @@ export default function Home() {
     );
   }
 
-  // 3. 🟢 Estado de Erro Amigável com opção de re-tentativa
+  // Estado de erro, exibindo uma mensagem amigável e um botão para tentar recarregar os dados
   if (error) {
     return (
       <div className="max-w-md mx-auto my-16 text-center bg-white p-8 rounded-2xl border border-gray-100 shadow-xs">
@@ -116,7 +116,7 @@ export default function Home() {
           <p className="text-gray-400 text-xs mt-1">Não existem lojas cadastradas na plataforma no momento.</p>
         </div>
       ) : (
-        /* 4. 🟢 Substituição do flex-col por um Grid Moderno e Responsivo */
+        /* Substituição do flex-col por um Grid Moderno e Responsivo */
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           {stores.map((store) => (
             <SeboCard key={store.id} store={store} />
