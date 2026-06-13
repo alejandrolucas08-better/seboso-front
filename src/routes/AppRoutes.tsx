@@ -57,7 +57,6 @@ function DashboardPage({
 }
 
 export default function AppRoutes() {
-
   const location = useUserLocation();
 
   return (
@@ -126,14 +125,30 @@ export default function AppRoutes() {
         }
       />
 
-      {/* Store Catalog */}
+      {/* 1. Gerenciamento de Catálogo do Sebo */}
       <Route path="/dashboard/stores/:id/catalog" element={
           <DashboardPage location={location} allowAdmin allowOwner allowEmployee>
             <StoreCatalog />
           </DashboardPage>
         }
       />
-      
+
+      {/* 2. Gerenciamento de Funcionários Específicos do Sebo (Ajustado) */}
+      <Route path="/dashboard/stores/:id/employees" element={
+          <DashboardPage location={location} allowAdmin allowOwner>
+            <EmployeesList />
+          </DashboardPage>
+        }
+      />
+
+      {/* 3. Dados / Configurações do Sebo (Novo Mapeamento) */}
+      <Route path="/dashboard/stores/:id/settings" element={
+          <DashboardPage location={location} allowAdmin allowOwner allowEmployee>
+            <StoreEdit /> {/* Reaproveitando o formulário de edição de dados */}
+          </DashboardPage>
+        }
+      />
+
       {/* Stores List (Admin Global) */}
       <Route path="/dashboard/stores" element={
           <DashboardPage location={location} allowAdmin>
@@ -150,7 +165,7 @@ export default function AppRoutes() {
         }
       />
 
-      {/* Store Edit */}
+      {/* Store Edit (Rota global antiga mantida por retrocompatibilidade) */}
       <Route path="/dashboard/stores/:id/edit" element={
           <DashboardPage location={location} allowAdmin allowOwner>
             <StoreEdit />
@@ -158,7 +173,15 @@ export default function AppRoutes() {
         }
       />
       
-      {/* Employees List */}
+      {/* Edição de Funcionários Individual (Contextualizado) */}
+      <Route path="/dashboard/stores/:storeId/employees/:id/edit" element={
+          <DashboardPage location={location} allowAdmin allowOwner>
+            <EmployeeEdit />
+          </DashboardPage>
+        }
+      />
+
+      {/* Rota Fallback antiga para lista geral de funcionários (opcional manter) */}
       <Route path="/dashboard/employees" element={
           <DashboardPage location={location} allowAdmin allowOwner >
             <EmployeesList />
@@ -166,7 +189,6 @@ export default function AppRoutes() {
         }
       />
 
-      {/* Employee Edit */}
       <Route path="/dashboard/employees/:id/edit" element={
           <DashboardPage location={location} allowAdmin allowOwner>
             <EmployeeEdit />
@@ -174,8 +196,7 @@ export default function AppRoutes() {
         }
       />
 
-      
-      {/* Users List */}
+      {/* Gerenciamento Global de Usuários */}
       <Route path="/dashboard/users" element={
           <DashboardPage location={location} allowAdmin>
             <UsersList />

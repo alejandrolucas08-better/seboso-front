@@ -45,13 +45,13 @@ export default function DashboardSidebar() {
           Painel Geral
         </NavLink>
 
-        {/* SEÇÃO DINÂMICA: Aparece apenas para Workers e Owners de Sebos */}
+        {/* SEÇÃO DINÂMICA: Expandida com sub-menus individuais por sebo vinculado */}
         {user && user.stores && user.stores.length > 0 && (
           <div className="mt-4">
             <p className="px-3 text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2">
               Meus Sebos
             </p>
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-1.5">
               {user.stores.map((storeRelation) => (
                 <SidebarStoreItemGroup
                   key={`${storeRelation.store_id}-${storeRelation.role}`}
@@ -62,7 +62,7 @@ export default function DashboardSidebar() {
           </div>
         )}
 
-        {/* SEÇÃO ADMINISTRATIVA GLOBAL: Bloqueada para Workers. Só renderiza se for de fato 'isAdmin' */}
+        {/* SEÇÃO ADMINISTRATIVA GLOBAL */}
         {isAdmin && (
           <div className="mt-4 flex flex-col gap-1">
             <p className="px-3 text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2">

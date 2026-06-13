@@ -1,44 +1,106 @@
 import { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
-import { Store } from "lucide-react";
+import { NavLink, useLocation } from "react-router-dom";
+import { Store, ChevronDown, ChevronRight, Layers, Users, Settings } from "lucide-react";
 import { getStoreById } from "../../services/store.service";
 import type { UserStore } from "../../types/userstore";
 
-interface SidebarStoreItemGroupProps {
+type SidebarStoreItemGroupProps = {
   storeRelation: UserStore;
-}
+};
 
 export default function SidebarStoreItemGroup({ storeRelation }: SidebarStoreItemGroupProps) {
   const [storeName, setStoreName] = useState<string>("Carregando sebo...");
+  const location = useLocation();
+  const storeId = storeRelation.store_id;
+
+  // 1. Avalia se a rota atual pertence a este sebo
+  const isCurrentStoreActive = location.pathname.includes(`/dashboard/stores/${storeId}`);
+
+
+  // O dropdown já começará aberto se o usuário estiver em uma rota deste sebo, sem precisar de useEffect
+  const [isOpen, setIsOpen] = useState<boolean>(() => {
+    return location.pathname.includes(`/dashboard/stores/${storeId}`);
+  });
 
   useEffect(() => {
     async function loadStoreName() {
       try {
-        const storeData = await getStoreById(storeRelation.store_id);
+        const storeData = await getStoreById(storeId);
         setStoreName(storeData.name);
       } catch (err) {
-        console.error(`Não foi possível carregar o nome do sebo ${storeRelation.store_id}:`, err);
-        setStoreName(`Sebo #${storeRelation.store_id}`);
+        console.error(`Não foi possível carregar o nome do sebo ${storeId}:`, err);
+        setStoreName(`Sebo #${storeId}`);
       }
     }
     loadStoreName();
-  }, [storeRelation.store_id]); // Array de dependência travada no ID para evitar requisições infinitas
+  }, [storeId]);
+
 
   return (
-    <NavLink
-      to={`/dashboard/stores/${storeRelation.store_id}/catalog`}
-      className={({ isActive }) =>
-        `
-          flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors
-          ${isActive ? "bg-[#FDF6F3] text-[#C37351] font-bold" : "text-gray-700 hover:bg-gray-50"}
-        `
-      }
-    >
-      <Store size={16} className="text-gray-400" />
-      <span className="truncate">{storeName}</span>
-      <span className="text-[10px] bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded uppercase font-semibold">
-        {storeRelation.role}
-      </span>
-    </NavLink>
+    <div className="flex flex-col gap-0.5">
+      {/* Botão de Disparo do Dropdown */}
+      <button
+        type="button"
+        onClick={() => setIsOpen(!isOpen)}
+        className={`
+          w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm font-medium transition-colors group
+          ${isCurrentStoreActive && !isOpen ? "bg-[#FDF6F3] text-[#C37351] font-bold" : "text-gray-700 hover:bg-gray-50"}
+        `}
+      >
+        <div className="flex items-center gap-2 min-w-0">
+          <Store size={16} className={isCurrentStoreActive ? "text-[#C37351]" : "text-gray-400 group-hover:text-gray-600"} />
+          <span className="truncate text-left">{storeName}</span>
+          <span className="text-[9px] bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded uppercase font-bold tracking-wide shrink-0">
+            {storeRelation.role === "worker" ? "employee" : storeRelation.role}
+          </span>
+        </div>
+        
+        {isOpen ? (
+          <ChevronDown size={14} className="text-gray-400 shrink-0 ml-1" />
+        ) : (
+          <ChevronRight size={14} className="text-gray-400 shrink-0 ml-1" />
+        )}
+      </button>
+
+      {/* Submenu Dropdown */}
+      {isOpen && (
+        <div className="flex flex-col gap-0.5 pl-7 mt-0.5 border-l-2 border-gray-100 ml-5">
+          <NavLink
+            to={`/dashboard/stores/${storeId}/catalog`}
+            className={({ isActive }) =>
+              `flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-medium transition-all
+               ${isActive ? "text-[#C37351] font-bold bg-[#FDF6F3]" : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"}`
+            }
+          >
+            <Layers size={14} />
+            Gerenciar Catálogo
+          </NavLink>
+
+          {storeRelation.role === "owner" && (
+            <NavLink
+              to={`/dashboard/stores/${storeId}/employees`}
+              className={({ isActive }) =>
+                `flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-medium transition-all
+                 ${isActive ? "text-[#C37351] font-bold bg-[#FDF6F3]" : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"}`
+              }
+            >
+              <Users size={14} />
+              Gerenciar Funcionários
+            </NavLink>
+          )}
+
+          <NavLink
+            to={`/dashboard/stores/${storeId}/settings`}
+            className={({ isActive }) =>
+              `flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-medium transition-all
+               ${isActive ? "text-[#C37351] font-bold bg-[#FDF6F3]" : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"}`
+            }
+          >
+            <Settings size={14} />
+            Dados do Sebo
+          </NavLink>
+        </div>
+      )}
+    </div>
   );
 }
