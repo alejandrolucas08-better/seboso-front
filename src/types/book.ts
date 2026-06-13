@@ -7,6 +7,7 @@ export interface Book {
   isbn_10_code: string | null;
   isbn_13_code: string | null;
   cover_type: string | null;
+  cover_url: string | null; 
   edition: string | null;
   language: string | null;
   genre: string | null;
@@ -23,6 +24,7 @@ export type CreateBookInput = {
   description?: string;
   published_at?: string;
   cover_type?: string;
+  cover_url?: string; 
   edition?: string;
   language?: string;
   genre?: string;

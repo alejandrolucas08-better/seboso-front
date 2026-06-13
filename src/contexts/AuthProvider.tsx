@@ -46,7 +46,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setHasLoadedStores(true); // Marca como carregado no login
   }
 
-  // 🟢 CORREÇÃO DO LOOP INFINITO:
+
   useEffect(() => {
     async function restoreStores() {
       // Se não houver usuário logado ou se já carregamos as lojas do banco, não faz nada
@@ -74,7 +74,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     restoreStores();
     
-  // 🟢 Alterado de [user] para usar apenas propriedades seguras.
+
   // Evita re-disparar o efeito quando o objeto user for recriado na memória.
   }, [user?.id, hasLoadedStores]); 
 

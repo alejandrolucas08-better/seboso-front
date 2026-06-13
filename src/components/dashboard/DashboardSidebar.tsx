@@ -45,8 +45,8 @@ export default function DashboardSidebar() {
           Painel Geral
         </NavLink>
 
-        {/* SEÇÃO DINÂMICA: Expandida com sub-menus individuais por sebo vinculado */}
-        {user && user.stores && user.stores.length > 0 && (
+        {/* SEÇÃO DE SEBOS DO USUÁRIO */}
+        {user && !isAdmin && user.stores && user.stores.length > 0 && (
           <div className="mt-4">
             <p className="px-3 text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-2">
               Meus Sebos

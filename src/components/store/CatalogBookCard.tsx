@@ -7,7 +7,7 @@ type CatalogBookCardProps = {
 
 export default function CatalogBookCard({ item }: CatalogBookCardProps) {
   return (
-    <div className="border border-gray-100 rounded-2xl p-5 bg-white shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between h-full min-h-[160px]">
+    <div className="border border-gray-100 rounded-2xl p-5 bg-white shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between h-full min-h-40">
       <div className="flex justify-between items-start gap-4">
         <div className="space-y-1.5 flex-1">
           <div className="flex items-center gap-1.5 text-[#C37351]">

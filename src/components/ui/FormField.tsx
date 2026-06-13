@@ -1,11 +1,12 @@
+import React from "react";
+
 type Props = {
   label: string;
   name: string;
   value: string | number;
-  onChange: (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   type?: string;
+  placeholder?: string; 
 };
 
 export default function FormField({
@@ -14,6 +15,7 @@ export default function FormField({
   value,
   onChange,
   type = "text",
+  placeholder, 
 }: Props) {
   return (
     <div className="flex flex-col gap-1">
@@ -30,6 +32,7 @@ export default function FormField({
         type={type}
         value={value}
         onChange={onChange}
+        placeholder={placeholder} 
         className="
           w-full
           border

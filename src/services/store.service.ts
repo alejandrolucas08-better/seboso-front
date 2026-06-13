@@ -16,7 +16,7 @@ export function getStoreById(storeId: number) {
 
 // POST /stores/ - Cria um novo sebo
 export function createStore(storeData: CreateStoreInput) {
-  return api<void>("/stores/", {
+  return api<void>("/stores", {
     method: "POST",
     body: storeData,
   });

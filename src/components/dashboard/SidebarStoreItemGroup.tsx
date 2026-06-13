@@ -11,18 +11,18 @@ type SidebarStoreItemGroupProps = {
 export default function SidebarStoreItemGroup({ storeRelation }: SidebarStoreItemGroupProps) {
   const [storeName, setStoreName] = useState<string>("Carregando sebo...");
   const location = useLocation();
-  const storeId = storeRelation.store_id;
+  const storeId = storeRelation?.store_id;
 
-  // 1. Avalia se a rota atual pertence a este sebo
   const isCurrentStoreActive = location.pathname.includes(`/dashboard/stores/${storeId}`);
 
-
-  // O dropdown já começará aberto se o usuário estiver em uma rota deste sebo, sem precisar de useEffect
   const [isOpen, setIsOpen] = useState<boolean>(() => {
     return location.pathname.includes(`/dashboard/stores/${storeId}`);
   });
 
   useEffect(() => {
+    // Se não houver um storeId válido, não tentamos carregar o nome do sebo
+    if (!storeId) return;
+
     async function loadStoreName() {
       try {
         const storeData = await getStoreById(storeId);
@@ -35,10 +35,11 @@ export default function SidebarStoreItemGroup({ storeRelation }: SidebarStoreIte
     loadStoreName();
   }, [storeId]);
 
+  // Se o componente for chamado sem um id real, não renderiza nada na árvore
+  if (!storeId) return null;
 
   return (
     <div className="flex flex-col gap-0.5">
-      {/* Botão de Disparo do Dropdown */}
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
@@ -62,7 +63,6 @@ export default function SidebarStoreItemGroup({ storeRelation }: SidebarStoreIte
         )}
       </button>
 
-      {/* Submenu Dropdown */}
       {isOpen && (
         <div className="flex flex-col gap-0.5 pl-7 mt-0.5 border-l-2 border-gray-100 ml-5">
           <NavLink

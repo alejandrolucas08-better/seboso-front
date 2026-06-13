@@ -3,8 +3,7 @@ import { useParams } from "react-router-dom";
 import StoreForm from "../../../components/store/StoreForm";
 import { getStoreById, updateStore } from "../../../services/store.service";
 import type { Store } from "../../../types/store";
-// 🟢 IMPORTANTE: Certifique-se de importar o tipo correto do seu arquivo de tipos, 
-// o caminho abaixo é um exemplo, ajuste para onde o seu CreateStoreInput estiver guardado.
+
 import type { CreateStoreInput } from "../../../types/store"; 
 
 export default function StoreSettings() {
@@ -33,7 +32,7 @@ export default function StoreSettings() {
     loadStore();
   }, [id]);
 
-  // 🟢 CORREÇÃO: Alterado o tipo de 'Store' para 'CreateStoreInput' para bater com o StoreForm
+
   async function handleUpdate(formData: CreateStoreInput) {
     try {
       if (!id) return;
@@ -73,7 +72,7 @@ export default function StoreSettings() {
       <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
         <StoreForm
           initialData={store}
-          onSubmit={handleUpdate} // 🟢 Agora o TypeScript aceitará sem erros!
+          onSubmit={handleUpdate} 
         />
       </div>
     </div>

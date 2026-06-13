@@ -28,8 +28,8 @@ export default function Sidebar({ pageTitle, searchTerm, onSearchChange }: Props
         <input
           type="text"
           placeholder="Digite o nome..."
-          value={searchTerm} // 🟢 Controla o valor pelo estado do Pai
-          onChange={(e) => onSearchChange(e.target.value)} // 🟢 Notifica o pai a cada tecla
+          value={searchTerm} 
+          onChange={(e) => onSearchChange(e.target.value)} 
           className="
             w-full bg-white/50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm
             text-gray-800 placeholder-gray-400 shadow-inner outline-none 
