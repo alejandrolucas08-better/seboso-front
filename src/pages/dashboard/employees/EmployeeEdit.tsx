@@ -12,12 +12,12 @@ import type { UserStore } from "../../../types/userstore";
 
 export default function EmployeeEdit() {
   const navigate = useNavigate();
-  const { storeId, id } = useParams();
+  // id aqui representa o user_id do funcionário vindo da URL da rota
+  const { storeId, id } = useParams<{ storeId: string; id: string }>();
 
   const [employee, setEmployee] = useState<UserStore | null>(null);
   const [loading, setLoading] = useState(true); 
 
-  // 
   useEffect(() => {
     let isMounted = true;
     
@@ -26,6 +26,7 @@ export default function EmployeeEdit() {
         if (!storeId || !id) return;
 
         const employees = await getEmployeesByStore(Number(storeId));
+        // Procura comparando com o user_id vindo da URL
         const found = employees.find((emp) => emp.user_id === Number(id));
 
         if (isMounted && found) {
@@ -43,23 +44,27 @@ export default function EmployeeEdit() {
     executeFetch();
 
     return () => {
-      isMounted = false; // Cleanup seguro contra cascading renders
+      isMounted = false;
     };
-  }, [storeId, id]); // Dependências limpas e seguras
+  }, [storeId, id]);
 
+  // Modificado para aceitar propriedades parciais, injetando o ID correto da URL por segurança
   async function handleUpdate(data: {
-    user_id: number;
+    user_id?: number;
     role: string;
   }) {
     try {
-      if (!storeId) return;
+      if (!storeId || !id) return;
 
+      // GARANTIA: Mesmo que o EmployeeForm não retorne o user_id, 
+      // nós usamos o ID garantido que está na URL da rota.
       await updateEmployeeRole({
-        user_id: data.user_id,
+        user_id: data.user_id || Number(id),
         store_id: Number(storeId),
         role: data.role,
       });
 
+      // Redireciona de volta para a listagem de funcionários da loja
       navigate(`/dashboard/stores/${storeId}/employees`);
     } catch (error) {
       console.error("Erro ao atualizar funcionário:", error);
@@ -81,7 +86,7 @@ export default function EmployeeEdit() {
         <p className="text-sm font-semibold text-gray-800">Funcionário não encontrado.</p>
         <button 
           onClick={() => navigate(`/dashboard/stores/${storeId}/employees`)}
-          className="mt-4 text-xs font-bold text-[#C37351] underline"
+          className="mt-4 text-xs font-bold text-[#C37351] underline cursor-pointer"
         >
           Voltar para a lista
         </button>
@@ -90,7 +95,7 @@ export default function EmployeeEdit() {
   }
 
   return (
-    <div className="space-y-6 max-w-2xl">
+    <div className="space-y-6 max-w-2xl p-2">
       <h1 className="text-2xl font-bold text-gray-900 tracking-tight">
         Editar Funcionário
       </h1>
