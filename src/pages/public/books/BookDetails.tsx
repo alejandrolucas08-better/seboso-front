@@ -79,7 +79,7 @@ export default function BookDetails() {
       {/* Cartão de Detalhes Principal */}
       <div className="bg-white border border-gray-100 rounded-2xl shadow-xs overflow-hidden p-6 md:p-8">
         <div className="flex flex-col md:flex-row gap-8">
-          
+
           {/* Lado Esquerdo: Imagem da Capa ou Placeholder */}
           <div className="w-full md:w-56 shrink-0">
             {book.cover_url ? (
@@ -112,6 +112,14 @@ export default function BookDetails() {
                 </span>
               )}
               <h1 className="text-3xl font-bold text-gray-900 tracking-tight">
+                <div className="flex items-center gap-3 text-sm text-gray-600">
+                  <Hash size={10} className="text-[#C37351]" />
+                  <div>
+                    <p className="font-semibold text-gray-800 m-0 p-0">
+                      {book.id}
+                    </p>
+                  </div>
+                </div>
                 {book.title}
               </h1>
               <p className="text-lg text-gray-500 mt-1 flex items-center gap-1.5">
